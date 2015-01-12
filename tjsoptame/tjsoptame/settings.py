@@ -62,10 +62,9 @@ WSGI_APPLICATION = 'tjsoptame.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': dj_database_url.config(
         default='postgres://docker:docker@{0}/docker'.format(
-            os.environ.get('DB_1_PORT_5432_TCP_ADDR'))
-    }
+            os.environ.get('DB_1_PORT_5432_TCP_ADDR')))
 }
 
 # Internationalization
