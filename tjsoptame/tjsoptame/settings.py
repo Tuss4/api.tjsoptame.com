@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -17,12 +18,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i3^d*br___jq)9d9(mgp!3$m+6t&@cmd%iw)@mqu9ndio#)r!j'
+SECRET_KEY = os.getenv("SECRET_KEY",'i3^d*br___jq)9d9(mgp!3$m+6t&@cmd%iw)@mqu9ndio#)r!j')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", True)
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -36,6 +37,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api',
+    'videos',
+    'projects',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,8 +63,8 @@ WSGI_APPLICATION = 'tjsoptame.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        default='postgres://docker:docker@{0}/docker'.format(
+            os.environ.get('DB_1_PORT_5432_TCP_ADDR'))
     }
 }
 
